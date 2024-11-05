@@ -1,4 +1,6 @@
-const apiBaseUrl = "https://pokeapi.co/api/v2/pokemon/";
+const apiBasePath = "https://pokeapi.co/api/v2/";
+const apiBaseDescription = apiBasePath + "pokemon-species/";
+const apiBaseUrl = apiBasePath + "pokemon/";
 
 async function searchPokemon() {
   // DECLARANDO AS VARIÁVEIS
@@ -7,7 +9,7 @@ async function searchPokemon() {
     .value.toLowerCase()
     .trim();
   const url = apiBaseUrl + search;
-
+  const descUrl = apiBaseDescription + search;
   try {
     // REQUISIÇÃO DA URL DA SEARCH E VAI RETORNAR UMA PROMISE
     const response = await fetch(url);
@@ -19,18 +21,19 @@ async function searchPokemon() {
 
     // CONVERTENDO EM JSON
     const obj = await response.json();
-    
+
     // URL DA IMAGEM
     const pokeImage =
       "<img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
       obj.id +
       ".png' id='pokemon-img' alt='" +
-      obj.name + 
+      obj.name +
       "'>";
-    
+
     const pokeName = obj.name;
     const pokeHeight = obj.height;
     const pokeWeight = obj.weight;
+    const pokeID = obj.id;
 
     // CRIANDO UM ARRAY PARA GUARDAR A TIPAGEM DO POKÉMON
     const pokeTypesArray = obj.types.map((type) => type.type.name);
@@ -50,6 +53,7 @@ async function searchPokemon() {
     document.getElementById("sp-attack-stat").innerHTML = pokeStatsArray[3];
     document.getElementById("sp-defense-stat").innerHTML = pokeStatsArray[4];
     document.getElementById("speed-stat").innerHTML = pokeStatsArray[5];
+    document.getElementById("pokemon-id").innerHTML = "<i>#" + pokeID + "</i>";
 
     // LIMPAR O CONTEÚDO ANTES PARA EVITAR REPETIÇÕES
     document.getElementById("pokemon-abilities").innerHTML = "";
@@ -73,9 +77,36 @@ async function searchPokemon() {
       document.getElementsByClassName("pokemon-types-text")[0].innerHTML = "Nenhum tipo encontrado.";
     }
 
+    try {
+      // REQUISIÇÃO DA URL DA DESCRIÇÃO DO POKÉMON E VAI RETORNAR UMA PROMISE
+      const descriptionResponse = await fetch(descUrl + "/");
+
+      // VERIFICANDO SE A DESCRIÇÃO DO POKÉMON FOI ENCONTRADA
+      if (!descriptionResponse.ok) {
+        throw new Error("Descrição do Pokémon não encontrada.");
+      }
+
+      // CONVERTENDO EM JSON
+      const descriptionObj = await descriptionResponse.json();
+
+      pokeDescription = descriptionObj.flavor_text_entries.map((flavor) => flavor.flavor_text);
+      
+      document.getElementsByClassName("pokemon-bio")[0].innerHTML = pokeDescription[0];
+      console.log(descriptionResponse);
+
+    } catch (error) {
+      // MENSAGEM DE ERRO SE ALGO DER ERRADO
+    console.error("Erro:", error);
+    document.getElementsByClassName("pokemon-image")[0].innerHTML = `<p style="color:red;">${error.message}</p>`;
+    }
+
+
+  
   } catch (error) {
     // MENSAGEM DE ERRO SE ALGO DER ERRADO
     console.error("Erro:", error);
     document.getElementsByClassName("pokemon-image")[0].innerHTML = `<p style="color:red;">${error.message}</p>`;
   }
+
+
 }
