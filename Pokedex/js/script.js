@@ -78,27 +78,27 @@ async function searchPokemon() {
     }
 
     try {
-      // REQUISIÇÃO DA URL DA DESCRIÇÃO DO POKÉMON E VAI RETORNAR UMA PROMISE
-      const descriptionResponse = await fetch(descUrl + "/");
-
-      // VERIFICANDO SE A DESCRIÇÃO DO POKÉMON FOI ENCONTRADA
+      const descriptionResponse = await fetch(descUrl);
+    
       if (!descriptionResponse.ok) {
         throw new Error("Descrição do Pokémon não encontrada.");
       }
-
-      // CONVERTENDO EM JSON
+    
       const descriptionObj = await descriptionResponse.json();
-
-      pokeDescription = descriptionObj.flavor_text_entries.map((flavor) => flavor.flavor_text);
-      
-      document.getElementsByClassName("pokemon-bio")[0].innerHTML = pokeDescription[0];
-      console.log(descriptionResponse);
-
+      const pokeDescription = descriptionObj.flavor_text_entries.map((flavor) => flavor.flavor_text);
+    
+      if (pokeDescription) {
+        document.getElementsByClassName("pokemon-bio")[0].innerHTML = pokeDescription[0].replace(/(\n|\f)/g, " ");
+      } else {
+        document.getElementsByClassName("pokemon-bio")[0].innerHTML =
+          "Descrição não encontrada.";
+      }
     } catch (error) {
-      // MENSAGEM DE ERRO SE ALGO DER ERRADO
-    console.error("Erro:", error);
-    document.getElementsByClassName("pokemon-image")[0].innerHTML = `<p style="color:red;">${error.message}</p>`;
+      console.error("Erro:", error);
+      document.getElementsByClassName("pokemon-bio")[0].innerHTML =
+        `<p style="color:red;">Erro ao carregar descrição: ${error.message}</p>`;
     }
+    
 
 
   
@@ -107,6 +107,4 @@ async function searchPokemon() {
     console.error("Erro:", error);
     document.getElementsByClassName("pokemon-image")[0].innerHTML = `<p style="color:red;">${error.message}</p>`;
   }
-
-
 }
