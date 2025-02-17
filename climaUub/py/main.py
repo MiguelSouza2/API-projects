@@ -19,5 +19,4 @@ if response.status_code == 200:
     obj = response.json()
     
     print(obj)
-
-print("rodolfo")
+    
