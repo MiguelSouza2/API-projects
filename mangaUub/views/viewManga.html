@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Manga info: </h1><br>
+
+        <p>{{mangaInfo["title"]}}</p>
+        <p>{{mangaInfo["year"]}}</p>
+        <p>{{mangaInfo["status"]}}</p>
+        <p>{{mangaInfo["description"]}}</p>
+
+        {% for tag in mangaInfo["tags"] %}
+        <p>{{tag["attributes"]["name"]["en"]}}</p>
+        {% endfor %}
+    </div>
+
+{#    <div>
+        <form action="{{url_for('readManga')}}"><input type="button" value="Ler agora"></form>
+    </div>#}
+    <table>
+        <thead>
+            <tr>
+                <th>Capítulos</th>
+            </tr>
+        </thead>
+        <tbody>
+ 
+                {% for cap in mangaInfo["chapters"] %}
+                <tr><th>* {{cap}}</th></tr>
+                {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
