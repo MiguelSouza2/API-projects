@@ -5,7 +5,7 @@ BASE_URL = "https://api.mangadex.org/"
 def getManga(title):
     if (title != ""):
         try: 
-            r = requests.get(f"{BASE_URL}manga?title={title}")
+            r = requests.get(f"{BASE_URL}/manga", params={"title": title, "order[relevance]": "desc"})
             
             mangaData = r.json()
             
@@ -17,16 +17,26 @@ def getManga(title):
 
 def getChapters(id):
     try:
-        r = requests.get(f"{BASE_URL}/manga/{id}/feed")
+        r = requests.get(f"{BASE_URL}/manga/{id}/feed", params={"translatedLanguage[]":["pt-br"], "order[chapter]": "asc"})
 
         chapters = []
         
         for chapter in r.json()["data"]:
-            lang = chapter["attributes"]["translatedLanguage"]
-            if lang == "pt-br" or lang:
-                chapters.append(chapter["id"])
+            chapters.append([chapter["attributes"]["title"], chapter["id"]])
             
         return chapters
     
     except Exception as e:
         print(f"An error occured: {e}")
+        
+
+
+def getChapterImage(chapter_id):
+    try:
+        r = requests.get(f"{BASE_URL}/at-home/server/{chapter_id}")
+        
+        chapter_data = r.json()
+        return chapter_data
+    
+    except Exception as e:
+        print(f"An error has occured: {e}")

@@ -19,9 +19,6 @@
         {% endfor %}
     </div>
 
-{#    <div>
-        <form action="{{url_for('readManga')}}"><input type="button" value="Ler agora"></form>
-    </div>#}
     <table>
         <thead>
             <tr>
@@ -31,7 +28,7 @@
         <tbody>
  
                 {% for cap in mangaInfo["chapters"] %}
-                <tr><th>* {{cap}}</th></tr>
+                <tr><td><form action="{{url_for('readManga')}}" method="post"><button>{{cap[0]}}</button> <input type="hidden" name="chapter_name" value="{{cap[0]}}"> <input type="hidden" name="chapter_id" value="{{cap[1]}}"></form></td></tr>
                 {% endfor %}
         </tbody>
     </table>

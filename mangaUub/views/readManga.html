@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitor de Capítulo</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: #1f1f1f;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 1.2em;
+      z-index: 10;
+      border-bottom: 1px solid #333;
+    }
+
+    .reader-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .page-img {
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .back-button {
+      display: block;
+      margin: 30px auto 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    Capítulo: {{chap_name}}
+  </div>
+
+  <div class="reader-container">
+   {% for img in chapter_images %}
+    <img src="{{chapter_url}}{{img}}" class="page-img">
+   {% endfor %}
+    <!-- Botão de voltar -->
+    <a href="{{url_for('searchManga')}}" class="back-button">← Voltar para os capítulos</a>
+  </div>
+
+</body>
+</html>

@@ -35,8 +35,18 @@ def init_app(app):
         return redirect(url_for('home'))
     
     
-    # @app.route("/readManga")
-    # def readManga():
-        
-    #     return render_template("readManga.html")
+    @app.route("/readManga", methods={'GET', 'POST'})
+    def readManga():
+        if request.method == "POST":
+            chap_id = request.form.get("chapter_id")
+            chap_name = request.form.get("chapter_name")
+            
+            if chap_id and chap_name:
+                chapter_data = mangaData.getChapterImage(chap_id)
+                
+                chapter_images = chapter_data["chapter"]["data"]
+                chapter_url = f"{chapter_data["baseUrl"]}/data/{chapter_data["chapter"]["hash"]}/"
+                
+                return render_template("readManga.html", chapter_url=chapter_url, chapter_images=chapter_images, chap_name=chap_name)
 
+        return redirect(url_for('searchManga'))
