@@ -5,7 +5,7 @@ BASE_URL = "https://api.mangadex.org/"
 def getManga(title):
     if (title != ""):
         try: 
-            r = requests.get(f"{BASE_URL}/manga", params={"title": title, "order[relevance]": "desc"})
+            r = requests.get(f"{BASE_URL}/manga", params={"title": title, "order[rating]": "desc", "order[followedCount]": "desc"})
             
             mangaData = r.json()
             
@@ -17,7 +17,7 @@ def getManga(title):
 
 def getChapters(id):
     try:
-        r = requests.get(f"{BASE_URL}/manga/{id}/feed", params={"translatedLanguage[]":["pt-br"], "order[chapter]": "asc"})
+        r = requests.get(f"{BASE_URL}/manga/{id}/feed", params={"translatedLanguage[]":["pt-br", "en"], "order[chapter]": "asc"})
 
         chapters = []
         
