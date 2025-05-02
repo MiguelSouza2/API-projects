@@ -3,74 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokédex</title>
+  <title>UubDex - Sua Pokédex Completa</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <!-- Topo com Logo e Menu -->
   <header>
-    <div class="logo">UubDex </div>
+    <div class="logo">UubDex</div>
     <nav>
       <a href="#">Home</a>
-      <a href="#">Pokédex</a>
-      <a href="#">Sobre</a>
-      <a href="#">Contato</a>
+      <a href="checkPokemon.html">Pokédex</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
     </nav>
   </header>
+<!-- aa -->
+  <!-- Seção Principal (Landing) -->
+  <section class="landing">
+    <div class="landing-content">
+      <h1>Bem-vindo a UubDex!</h1>
+      <p>Pesquise qualquer Pokémon, item ou habilidade e expanda seu conhecimento.</p>
+    </div>
+  </section>
 
   <!-- Área de Pesquisa -->
   <section class="search-section">
-    <input type="text" id="search-bar" placeholder="Digite o nome ou número do Pokémon...">
+    <input type="text" id="search-bar" placeholder="Digite o nome do Pokémon, item, pokébola...">
     <button id="search-button" onclick="searchPokemon()">🔍</button>
   </section>
 
-  <!-- Resultado da Pesquisa (Espaço em Branco) -->
-  <section class="pokemon-result">
-    <div class="pokemon-image"></div>
-    <div class="pokemon-info">
-      
-      <h2 id="pokemon-name"></h2>
-      <p id="pokemon-id"></p><br>
-      <div class="pokemon-types">
-        <h3 class="pokemon-types-text"></h3>
-      </div>
-      <table class="pokemon-stats">
-        <tr><td>HP:</td><td id="hp-stat"></td></tr>
-        <tr><td>Attack:</td><td id="attack-stat"></td></tr>
-        <tr><td>Defense:</td><td id="defense-stat"></td></tr>
-        <tr><td>Special Attack:</td><td id="sp-attack-stat"></td></tr>
-        <tr><td>Special Defense:</td><td id="sp-defense-stat"></td></tr>
-        <tr><td>Speed:</td><td id="speed-stat"></td></tr>
-      </table>
-      <p class="pokemon-bio"></p>
-    </div>
-  </section>
-  
-  <!-- Informações Adicionais do Pokémon -->
-<section class="pokemon-details">
-    <h3>Additional info:</h3>
-    <table class="pokemon-details-table">
-      <tr>
-        <td>Height:</td>
-        <td id="pokemon-height"></td>
-      </tr>
-      <tr>
-        <td>Weight:</td>
-        <td id="pokemon-weight"></td>
-      </tr>
-      <tr>
-        <td>Ability:</td>
-        <td id="pokemon-abilities"></td>
-      </tr>
-      <tr>
-        <td>Cries:</td>
-        <td id="pokemon-cries"></td>
-      </tr>
-      
-    </table>
-  </section>
-  
-  
   <script src="js/script.js"></script>
 </body>
 </html>
