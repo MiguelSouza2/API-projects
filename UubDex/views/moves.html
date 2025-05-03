@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UubDex - Movimentos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilização do move selecionado */
+    .move-card {
+      transition: transform 0.2s;
+    }
+    .move-card:hover {
+      transform: scale(1.02);
+    }
+    /* Estilização da tela de detalhes */
+    .details-panel:not(.active) {
+      display: none;
+    }
+    /* Badge de tipo */
+    .type-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      color: white;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Topo -->
+  <header class="bg-red-600 text-white p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">UubDex - Movimentos</div>
+    <a href="/home" class="text-white">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+    </a>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="p-4">
+    <!-- Barra de Busca -->
+    <div class="mb-4">
+      <div class="relative">
+        <input type="text" placeholder="Buscar movimento..." class="p-2 w-full rounded-lg border border-gray-300 pl-10">
+        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <label for="type-filter" class="block text-sm font-semibold mb-1">Tipo</label>
+        <select id="type-filter" class="p-2 w-full rounded-lg border border-gray-300">
+          <option value="all">Todos</option>
+          <option value="electric">Elétrico</option>
+          <option value="fire">Fogo</option>
+          <option value="water">Água</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+      <div>
+        <label for="category-filter" class="block text-sm font-semibold mb-1">Categoria</label>
+        <select id="category-filter" class="p-2 w-full rounded-lg border border-gray-300">
+          <option value="all">Todas</option>
+          <option value="physical">Físico</option>
+          <option value="special">Especial</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+      <div>
+        <label for="power-filter" class="block text-sm font-semibold mb-1">Power</label>
+        <select id="power-filter" class="p-2 w-full rounded-lg border border-gray-300">
+          <option value="all">Qualquer</option>
+          <option value="0-50">0-50</option>
+          <option value="51-100">51-100</option>
+          <option value="101+">101+</option>
+        </select>
+      </div>
+      <div>
+        <label for="accuracy-filter" class="block text-sm font-semibold mb-1">Accuracy</label>
+        <select id="accuracy-filter" class="p-2 w-full rounded-lg border border-gray-300">
+          <option value="all">Qualquer</option>
+          <option value="100">100%</option>
+          <option value="90-99">90-99%</option>
+          <option value="below-90">Abaixo de 90%</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lista de Movimentos -->
+    <section class="space-y-4 mb-6">
+      <div class="move-card bg-white p-4 rounded-lg shadow flex items-center justify-between cursor-pointer" onclick="showDetails('thunderbolt')">
+        <div class="flex items-center space-x-4">
+          <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <div>
+            <h3 class="text-lg font-semibold">Thunderbolt</h3>
+            <span class="type-badge bg-yellow-500">Elétrico</span>
+            <span class="ml-2 text-sm text-gray-600">Especial</span>
+          </div>
+        </div>
+        <div class="text-sm">Power: 90</div>
+      </div>
+      <div class="move-card bg-white p-4 rounded-lg shadow flex items-center justify-between cursor-pointer" onclick="showDetails('flamethrower')">
+        <div class="flex items-center space-x-4">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0 0 1.5-1 1.5-3S12 4 12 4s1.5 2 3 3c0 0 .5 1.5 3 2s3-1 3-1"></path>
+          </svg>
+          <div>
+            <h3 class="text-lg font-semibold">Flamethrower</h3>
+            <span class="type-badge bg-red-500">Fogo</span>
+            <span class="ml-2 text-sm text-gray-600">Especial</span>
+          </div>
+        </div>
+        <div class="text-sm">Power: 90</div>
+      </div>
+      <div class="move-card bg-white p-4 rounded-lg shadow flex items-center justify-between cursor-pointer" onclick="showDetails('tackle')">
+        <div class="flex items-center space-x-4">
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+          </svg>
+          <div>
+            <h3 class="text-lg font-semibold">Tackle</h3>
+            <span class="type-badge bg-gray-500">Normal</span>
+            <span class="ml-2 text-sm text-gray-600">Físico</span>
+          </div>
+        </div>
+        <div class="text-sm">Power: 40</div>
+      </div>
+    </section>
+
+    <!-- Painel de Detalhes -->
+    <section id="details-thunderbolt" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Thunderbolt</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        <div>
+          <span class="type-badge bg-yellow-500">Elétrico</span>
+          <span class="ml-2 text-sm text-gray-600">Especial</span>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição:</strong> Um forte ataque elétrico que pode paralisar o oponente.</p>
+        <p><strong>PP:</strong> 15</p>
+        <p><strong>Power:</strong> 90</p>
+        <p><strong>Accuracy:</strong> 100%</p>
+        <p><strong>Quem Aprende:</strong> Pikachu (Nível 26), Jolteon (TM), Electabuzz (Nível 32).</p>
+        <p><strong>Como:</strong> Level Up, TM24.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+    <section id="details-flamethrower" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Flamethrower</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0 0 1.5-1 1.5-3S12 4 12 4s1.5 2 3 3c0 0 .5 1.5 3 2s3-1 3-1"></path>
+        </svg>
+        <div>
+          <span class="type-badge bg-red-500">Fogo</span>
+          <span class="ml-2 text-sm text-gray-600">Especial</span>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição:</strong> Um poderoso ataque de fogo que pode queimar o oponente.</p>
+        <p><strong>PP:</strong> 15</p>
+        <p><strong>Power:</strong> 90</p>
+        <p><strong>Accuracy:</strong> 100%</p>
+        <p><strong>Quem Aprende:</strong> Charizard (Nível 34), Arcanine (TM), Ninetales (TM).</p>
+        <p><strong>Como:</strong> Level Up, TM35.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+    <section id="details-tackle" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Tackle</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+        </svg>
+        <div>
+          <span class="type-badge bg-gray-500">Normal</span>
+          <span class="ml-2 text-sm text-gray-600">Físico</span>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição:</strong> Um ataque físico básico que atinge o oponente com força.</p>
+        <p><strong>PP:</strong> 35</p>
+        <p><strong>Power:</strong> 40</p>
+        <p><strong>Accuracy:</strong> 100%</p>
+        <p><strong>Quem Aprende:</strong> Bulbasaur (Nível 1), Charmander (Nível 1), Squirtle (Nível 1).</p>
+        <p><strong>Como:</strong> Level Up.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+  </main>
+
+  <!-- Rodapé (Tab Bar) -->
+  <footer class="bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-around">
+    <a href="/home" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-sm">Home</span>
+    </a>
+    <a href="/pokemon" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <span class="text-sm">Pokémon</span>
+    </a>
+    <a href="/items" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3zm6 9l3-3m0 0l3 3m-3-3v6"></path>
+      </svg>
+      <span class="text-sm">Itens</span>
+    </a>
+    <a href="/moves" class="flex flex-col items-center text-yellow-300">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+      </svg>
+      <span class="text-sm">Moves</span>
+    </a>
+    <a href="/abilities" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10"></path>
+      </svg>
+      <span class="text-sm">Ability</span>
+    </a>
+  </footer>
+
+  <!-- JavaScript para alternar detalhes -->
+  <script>
+    function showDetails(moveId) {
+      document.querySelectorAll('.details-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.move-card').forEach(card => card.style.display = 'none');
+      document.getElementById(`details-${moveId}`).classList.add('active');
+      document.querySelector('.relative').style.display = 'none';
+      document.querySelectorAll('select').forEach(select => select.parentElement.style.display = 'none');
+    }
+    function hideDetails() {
+      document.querySelectorAll('.details-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.move-card').forEach(card => card.style.display = 'flex');
+      document.querySelector('.relative').style.display = 'block';
+      document.querySelectorAll('select').forEach(select => select.parentElement.style.display = 'block');
+    }
+  </script>
+</body>
+</html>

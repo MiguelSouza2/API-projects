@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UubDex - Itens</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilização do item selecionado */
+    .item-card {
+      transition: transform 0.2s;
+    }
+    .item-card:hover {
+      transform: scale(1.05);
+    }
+    /* Estilização da tela de detalhes */
+    .details-panel:not(.active) {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Topo -->
+  <header class="bg-red-600 text-white p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">UubDex - Itens</div>
+    <a href="/home" class="text-white">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+    </a>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="p-4">
+    <!-- Filtro -->
+    <div class="mb-6">
+      <label for="item-filter" class="block text-lg font-bold mb-2">Filtrar por Tipo</label>
+      <select id="item-filter" class="p-2 w-full rounded-lg border border-gray-300">
+        <option value="all">Todos</option>
+        <option value="potion">Potion</option>
+        <option value="berry">Berry</option>
+        <option value="held-item">Held Item</option>
+        <option value="key-item">Key Item</option>
+      </select>
+    </div>
+
+    <!-- Lista de Itens -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div class="item-card bg-white p-4 rounded-lg shadow flex items-center space-x-4 cursor-pointer" onclick="showDetails('potion')">
+        <div class="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a8 8 0 11-16 0 8 8 0 0116 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Potion</h3>
+          <p class="text-sm text-gray-600">Restaura 20 HP de um Pokémon.</p>
+        </div>
+      </div>
+      <div class="item-card bg-white p-4 rounded-lg shadow flex items-center space-x-4 cursor-pointer" onclick="showDetails('oran-berry')">
+        <div class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Oran Berry</h3>
+          <p class="text-sm text-gray-600">Restaura 10 HP quando abaixo de 50%.</p>
+        </div>
+      </div>
+      <div class="item-card bg-white p-4 rounded-lg shadow flex items-center space-x-4 cursor-pointer" onclick="showDetails('leftovers')">
+        <div class="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Leftovers</h3>
+          <p class="text-sm text-gray-600">Recupera HP gradualmente em batalha.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Painel de Detalhes -->
+    <section id="details-potion" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Potion</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <div class="w-16 h-16 bg-purple-200 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a8 8 0 11-16 0 8 8 0 0116 0z"></path>
+          </svg>
+        </div>
+        <p>Restaura 20 HP de um Pokémon.</p>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição Completa:</strong> Um spray medicinal que restaura 20 pontos de vida de um Pokémon quando usado.</p>
+        <p><strong>Onde Encontrar:</strong> Lojas Pokémon, encontrado em rotas ou dado por NPCs.</p>
+        <p><strong>Efeitos:</strong> Cura instantânea, utilizável fora ou durante batalhas.</p>
+        <p><strong>Uso em Batalha:</strong> Ideal para manter Pokémon ativos em combates prolongados.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+    <section id="details-oran-berry" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Oran Berry</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <div class="w-16 h-16 bg-green-200 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p>Restaura 10 HP quando abaixo de 50%.</p>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição Completa:</strong> Uma baga que restaura automaticamente 10 HP quando o Pokémon está com menos de 50% de sua vida total.</p>
+        <p><strong>Onde Encontrar:</strong> Árvores de bagas, rotas selvagens ou eventos.</p>
+        <p><strong>Efeitos:</strong> Ativa automaticamente em batalha quando as condições são atendidas.</p>
+        <p><strong>Uso em Batalha:</strong> Útil para Pokémon defensivos que precisam de recuperação leve.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+    <section id="details-leftovers" class="details-panel bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Leftovers</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <div class="w-16 h-16 bg-yellow-200 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p>Recupera HP gradualmente em batalha.</p>
+      </div>
+      <div class="space-y-2">
+        <p><strong>Descrição Completa:</strong> Um item segurado que restaura 1/16 do HP máximo do Pokémon no final de cada turno.</p>
+        <p><strong>Onde Encontrar:</strong> Recompensas de ginásios, eventos ou encontrado em locais especiais.</p>
+        <p><strong>Efeitos:</strong> Recuperação passiva contínua durante batalhas.</p>
+        <p><strong>Uso em Batalha:</strong> Essencial para estratégias defensivas ou de stall.</p>
+      </div>
+      <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg" onclick="hideDetails()">Voltar</button>
+    </section>
+  </main>
+
+  <!-- Rodapé (Tab Bar) -->
+  <footer class="bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-around">
+    <a href="/home" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-sm">Home</span>
+    </a>
+    <a href="/pokemon" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <span class="text-sm">Pokémon</span>
+    </a>
+    <a href="/items" class="flex flex-col items-center text-yellow-300">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3zm6 9l3-3m0 0l3 3m-3-3v6"></path>
+      </svg>
+      <span class="text-sm">Itens</span>
+    </a>
+    <a href="/moves" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+      </svg>
+      <span class="text-sm">Moves</span>
+    </a>
+    <a href="/abilities" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10"></path>
+      </svg>
+      <span class="text-sm">Ability</span>
+    </a>
+  </footer>
+
+  <!-- JavaScript para alternar detalhes -->
+  <script>
+    function showDetails(itemId) {
+      document.querySelectorAll('.details-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.item-card').forEach(card => card.style.display = 'none');
+      document.getElementById(`details-${itemId}`).classList.add('active');
+      document.getElementById('item-filter').style.display = 'none';
+    }
+    function hideDetails() {
+      document.querySelectorAll('.details-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.item-card').forEach(card => card.style.display = 'flex');
+      document.getElementById('item-filter').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UubDex - Pesquisar Pokémon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilização do card de Pokémon */
+    .search-card {
+      transition: transform 0.2s;
+    }
+    .search-card:hover {
+      transform: scale(1.05);
+    }
+    /* Badge de tipo */
+    .type-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      color: white;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Topo -->
+  <header class="bg-red-600 text-white p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">UubDex - Pesquisar</div>
+    <a href="/home" class="text-white">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+    </a>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="p-4">
+    <!-- Barra de Busca -->
+    <div class="mb-6">
+      <form action="{{url_for('search')}}" method="post">
+        <div class="relative">
+          <input type="text" placeholder="Digite o nome ou número do Pokémon..." class="p-2 w-full rounded-lg border border-gray-300 pl-10" id="search-input" oninput="filterPokemon()" name="searchQuery">
+          <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </form>
+    </div>
+
+    <!-- Resultados da Pesquisa -->
+    <section id="search-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {% if res['pokeRes'] is mapping %}
+      
+      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+        <img src="{{res['pokeRes']['sprites']['front_default']}}" alt="Pikachu" class="w-16 h-16">
+        <div>
+          <h3 class="text-lg font-semibold">{{res['pokeRes']['name']}}</h3>
+          <div class="flex space-x-2">
+            {% for types in res['pokeRes']['types'] %}
+            <span class="type-badge bg-yellow-500">{{types['type']['name']}}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </a>
+      
+      {% endif %}
+      {% if res['moveRes'] is mapping %}
+      
+      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+        
+        <div>
+          <h3 class="text-lg font-semibold">{{res['moveRes']['name']}}</h3>
+          <div class="flex space-x-2">
+            <span class="type-badge bg-yellow-500">Elétrico</span>
+          </div>
+        </div>
+      </a>
+      
+      {% endif %}
+      {% if res['abilityRes'] is mapping %}
+      
+      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="w-16 h-16">
+        <div>
+          <h3 class="text-lg font-semibold">{{res['abilityRes']['name']}}</h3>
+          <div class="flex space-x-2">
+            <span class="type-badge bg-yellow-500">Elétrico</span>
+          </div>
+        </div>
+      </a>
+      
+      {% endif %}
+      {% if res['itemRes'] is mapping %}
+      
+      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+        <img src="{{res['itemRes']['sprites']['default']}}" class="w-16 h-16">
+        <div>
+          <h3 class="text-lg font-semibold">{{res['itemRes']['name']}}</h3>
+          <div class="flex space-x-2">
+            <span class="type-badge bg-yellow-500">Elétrico</span>
+          </div>
+        </div>
+      </a>
+      
+      {% endif %}
+    </section>
+  </main>
+
+  <!-- Rodapé (Tab Bar) -->
+  <footer class="bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-around">
+    <a href="/home" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-sm">Home</span>
+    </a>
+    <a href="/pokemon" class="flex flex-col items-center text-yellow-300">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <span class="text-sm">Pokémon</span>
+    </a>
+    <a href="/items" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3zm6 9l3-3m0 0l3 3m-3-3v6"></path>
+      </svg>
+      <span class="text-sm">Itens</span>
+    </a>
+    <a href="/moves" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+      </svg>
+      <span class="text-sm">Moves</span>
+    </a>
+    <a href="/abilities" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10"></path>
+      </svg>
+      <span class="text-sm">Ability</span>
+    </a>
+  </footer>
+
+  <!-- JavaScript para filtrar Pokémon -->
+  <script>
+    function filterPokemon() {
+      const input = document.getElementById('search-input').value.toLowerCase();
+      const pokemonCards = document.querySelectorAll('.search-card');
+      pokemonCards.forEach(card => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const number = name.match(/#(\d+)/)[1];
+        if (name.includes(input) || number.includes(input)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

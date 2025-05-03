@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UubDex - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilização do carrossel */
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .carousel::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+    .carousel-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Topo -->
+  <header class="bg-red-600 text-white p-4 flex justify-between items-center">
+    <div class="text-2xl font-bold">UubDex</div>
+    <div class="flex items-center space-x-4">
+      <form action="{{url_for('search')}}" method="post">
+        <input type="text" placeholder="Buscar por..." class="p-2 rounded-full text-black w-64" name="searchQuery">
+      </form>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Seções principais -->
+  <main class="p-4">
+    <!-- Botões de navegação -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <a href="#" class="bg-blue-500 text-white p-4 rounded-lg flex items-center justify-center space-x-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <span>Buscar Pokémon</span>
+      </a>
+      <a href="#" class="bg-green-500 text-white p-4 rounded-lg flex items-center justify-center space-x-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3zm6 9l3-3m0 0l3 3m-3-3v6"></path>
+        </svg>
+        <span>Itens</span>
+      </a>
+      <a href="#" class="bg-yellow-500 text-white p-4 rounded-lg flex items-center justify-center space-x-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+        </svg>
+        <span>Movimentos</span>
+      </a>
+      <a href="#" class="bg-purple-500 text-white p-4 rounded-lg flex items-center justify-center space-x-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10"></path>
+        </svg>
+        <span>Habilidades</span>
+      </a>
+    </div>
+
+    <!-- Pokémon em destaque (Carrossel) -->
+    <section>
+      <h2 class="text-xl font-bold mb-4">Pokémon em Destaque</h2>
+      <div class="carousel">
+        <div class="carousel-item w-40 mr-4">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="w-full">
+          <p class="text-center">Pikachu</p>
+        </div>
+        <div class="carousel-item w-40 mr-4">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" alt="Charizard" class="w-full">
+          <p class="text-center">Charizard</p>
+        </div>
+        <div class="carousel-item w-40 mr-4">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png" alt="Venusaur" class="w-full">
+          <p class="text-center">Venusaur</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé (Tab Bar) -->
+  <footer class="bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-around">
+    <a href="#" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      <span class="text-sm">Home</span>
+    </a>
+    <a href="#" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <span class="text-sm">Pokémon</span>
+    </a>
+    <a href="#" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-2 12H5L3 3zm6 9l3-3m0 0l3 3m-3-3v6"></path>
+      </svg>
+      <span class="text-sm">Itens</span>
+    </a>
+    <a href="#" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+      </svg>
+      <span class="text-sm">Moves</span>
+    </a>
+    <a href="#" class="flex flex-col items-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10"></path>
+      </svg>
+      <span class="text-sm">Ability</span>
+    </a>
+  </footer>
+</body>
+</html>
