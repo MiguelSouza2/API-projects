@@ -2,10 +2,20 @@ import requests
 
 BASE_URL = "https://api.mangadex.org/"
 
-def getManga(title):
+def getManga(title="", id=""):
     if (title != ""):
         try: 
-            r = requests.get(f"{BASE_URL}/manga", params={"title": title, "order[rating]": "desc", "order[followedCount]": "desc"})
+            r = requests.get(f"{BASE_URL}/manga", params={"title": title, "order[rating]": "desc", "order[followedCount]": "desc", "limit": 10})
+            
+            mangaData = r.json()
+            
+            return mangaData
+            
+        except Exception as e: 
+            print(f"An error occured: {e}")
+    elif(id != ""):
+        try: 
+            r = requests.get(f"{BASE_URL}/manga/{id}")
             
             mangaData = r.json()
             

@@ -8,30 +8,40 @@ def init_app(app):
     def home():
         return render_template("index.html") 
     
-    @app.route("/", methods=['GET', 'POST'])
+    @app.route("/queryManga", methods=['GET', 'POST'])
     def searchManga():
         if request.method == 'POST':
             mangaSearch = request.form.get("search")
             if mangaSearch:
-                currentManga = mangaData.getManga(mangaSearch)
-                currentMangaID = currentManga['data'][0]['id']
+                mangas = mangaData.getManga(mangaSearch)
                 
-                mangaChapters = mangaData.getChapters(currentMangaID)
+                return render_template("queryManga.html", mangas=mangas)
 
+        return redirect(url_for('home'))
+    
+    
+    @app.route("/", methods=['GET', 'POST'])
+    def getManga():
+        if request.method == 'POST':
+            mangaId = request.form.get("manga_id")
+            if mangaId:
+                currentManga = mangaData.getManga(id=mangaId)
+              
+                mangaChapters = mangaData.getChapters(mangaId)                
                 mangaInfo = {
-                    "id" : currentManga['data'][0]['id'],
-                    "title" : currentManga['data'][0]['attributes']['title']['en'],
-                    "description" : currentManga['data'][0]['attributes']['description'].get("pt-br") or next(iter(currentManga['data'][0]['attributes']['description'].values()), "Sem descrição disponível"),
-                    "year" : currentManga['data'][0]['attributes']['year'],
-                    "tags" : currentManga['data'][0]['attributes']['tags'],
-                    "status" : currentManga['data'][0]['attributes']['status'],
+                    "id" : currentManga['data']['id'],
+                    "title" : currentManga['data']['attributes']['title']['en'],
+                    "description" : currentManga['data']['attributes']['description'].get("pt-br") or next(iter(currentManga['data']['attributes']['description'].values()), "Sem descrição disponível"),
+                    "year" : currentManga['data']['attributes']['year'],
+                    "tags" : currentManga['data']['attributes']['tags'],
+                    "status" : currentManga['data']['attributes']['status'],
                     "chapters" : mangaChapters
                 }
-                
-                
+              
+              
                 return render_template("viewManga.html", mangaInfo=mangaInfo)
-            
-        
+          
+      
         return redirect(url_for('home'))
     
     

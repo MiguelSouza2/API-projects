@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Results:</h1> 
+
+    <table style="border: 1px;">
+        <tbody>
+            {% for manga in mangas['data'] %}
+                <form action="{{url_for('getManga')}}" method="post">
+                    <button style="color: blue;">
+                        -- 
+                        {{ manga['attributes']['title']['en'] if 'en' in manga['attributes']['title']
+                            else manga['attributes']['title']['ja'] if 'ja' in manga['attributes']['title']
+                            else manga['attributes']['title']['pt-br'] if 'pt-br' in manga['attributes']['title']
+                            else manga['attributes']['title'].values()|list|first }}
+
+                            <input type="hidden" name="manga_id" value="{{manga['id']}}">
+                    </button>
+                </form>
+                <br>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</body>
+</html>
