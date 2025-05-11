@@ -38,30 +38,17 @@
     <section class="container mx-auto py-12">
         <h3 class="text-2xl font-bold mb-6 text-center">Mangás em Destaque</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for pop in popularManga['data'] %}
+            
             <div class="bg-gray-800 rounded shadow p-4">
-                <img src="https://via.placeholder.com/150" alt="Mangá 1" class="w-full h-48 object-cover rounded">
-                <h4 class="text-lg font-semibold mt-2">Mangá 1</h4>
+                <img src="https://uploads.mangadex.org/covers/{{pop['id']}}/{{pop['cover_filename']}}.png" alt="Mangá 1" class="w-full h-48 object-cover rounded">
+                <h4 class="text-lg font-semibold mt-2">{{pop['attributes']['title'].values()|list|first}}</h4>
                 <p class="text-sm text-gray-400">Autor: Autor 1</p>
-                <a href="#" class="text-purple-400 hover:underline">Ler agora</a>
+                <form action="{{url_for('getManga')}}" method="post"><button href="#" class="text-purple-400 hover:underline">Ler agora</button><input type="hidden" name="manga_id" value="{{pop['id']}}"></form>
             </div>
-            <div class="bg-gray-800 rounded shadow p-4">
-                <img src="https://via.placeholder.com/150" alt="Mangá 2" class="w-full h-48 object-cover rounded">
-                <h4 class="text-lg font-semibold mt-2">Mangá 2</h4>
-                <p class="text-sm text-gray-400">Autor: Autor 2</p>
-                <a href="#" class="text-purple-400 hover:underline">Ler agora</a>
-            </div>
-            <div class="bg-gray-800 rounded shadow p-4">
-                <img src="https://via.placeholder.com/150" alt="Mangá 3" class="w-full h-48 object-cover rounded">
-                <h4 class="text-lg font-semibold mt-2">Mangá 3</h4>
-                <p class="text-sm text-gray-400">Autor: Autor 3</p>
-                <a href="#" class="text-purple-400 hover:underline">Ler agora</a>
-            </div>
-            <div class="bg-gray-800 rounded shadow p-4">
-                <img src="https://via.placeholder.com/150" alt="Mangá 4" class="w-full h-48 object-cover rounded">
-                <h4 class="text-lg font-semibold mt-2">Mangá 4</h4>
-                <p class="text-sm text-gray-400">Autor: Autor 4</p>
-                <a href="#" class="text-purple-400 hover:underline">Ler agora</a>
-            </div>
+
+            {% endfor %}
+
         </div>
     </section>
 

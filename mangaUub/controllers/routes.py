@@ -6,7 +6,10 @@ from controllers import mangaData
 def init_app(app):
     @app.route("/")
     def home():
-        return render_template("index.html") 
+        popularManga = mangaData.getManga()
+            
+        
+        return render_template("index.html", popularManga=popularManga) 
     
     @app.route("/queryManga", methods=['GET', 'POST'])
     def searchManga():

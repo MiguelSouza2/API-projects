@@ -24,7 +24,16 @@ def getManga(title="", id=""):
         except Exception as e: 
             print(f"An error occured: {e}")
 
-
+    else:
+        try:
+            r = requests.get(f"{BASE_URL}/manga", params={"order[rating]": "desc", "order[followedCount]": "desc", "limit": 5})
+            
+            mangaData = r.json()
+            return mangaData
+        
+        except Exception as e:
+            print(f"An error has occurred: {e}")
+            
 def getChapters(id):
     try:
         r = requests.get(f"{BASE_URL}/manga/{id}/feed", params={"translatedLanguage[]":["pt-br", "en"], "order[chapter]": "asc"})
@@ -50,3 +59,18 @@ def getChapterImage(chapter_id):
     
     except Exception as e:
         print(f"An error has occured: {e}")
+        
+        
+def getCover(id):
+    if id:
+        try: 
+            r = requests.get(f"{BASE_URL}/cover/{id}")
+            
+            cover_data = r.json()
+            
+            
+            
+            return cover_data
+        
+        except Exception as e:
+            print(f"An error has occurred: {e}")
