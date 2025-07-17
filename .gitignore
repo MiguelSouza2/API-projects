@@ -1,5 +1,1 @@
-$ cat Documentation/.gitignore
-# ignore generated html files,
-*.html
-# except foo.html which is maintained by hand
-!foo.html
+
