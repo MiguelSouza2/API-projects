@@ -44,7 +44,7 @@
                 <img src="https://uploads.mangadex.org/covers/{{pop['id']}}/{{pop['cover_filename']}}.png" alt="Mangá 1" class="w-full h-48 object-cover rounded">
                 <h4 class="text-lg font-semibold mt-2">{{pop['attributes']['title'].values()|list|first}}</h4>
                 <p class="text-sm text-gray-400">Autor: Autor 1</p>
-                <form action="{{url_for('getManga')}}" method="post"><button href="#" class="text-purple-400 hover:underline">Ler agora</button><input type="hidden" name="manga_id" value="{{pop['id']}}"></form>
+                <form action="{{url_for('getManga')}}" method="post"><button class="text-purple-400 hover:underline">Ler agora</button><input type="hidden" name="manga_id" value="{{pop['id']}}"></form>
             </div>
 
             {% endfor %}

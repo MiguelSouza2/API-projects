@@ -50,31 +50,33 @@
     <!-- Resultados da Pesquisa -->
     <section id="search-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {% if res['pokeRes'] is mapping %}
-      
-      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-        <img src="{{res['pokeRes']['sprites']['front_default']}}" alt="Pikachu" class="w-16 h-16">
-        <div>
-          <h3 class="text-lg font-semibold">{{res['pokeRes']['name']}}</h3>
-          <div class="flex space-x-2">
-            {% for types in res['pokeRes']['types'] %}
-            <span class="type-badge bg-yellow-500">{{types['type']['name']}}</span>
-            {% endfor %}
+      <form action="">
+        <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+          <img src="{{res['pokeRes']['sprites']['front_default']}}" alt="Pikachu" class="w-16 h-16">
+          <div>
+            <h3 class="text-lg font-semibold">{{res['pokeRes']['name']}}</h3>
+            <div class="flex space-x-2">
+              {% for types in res['pokeRes']['types'] %}
+              <span class="type-badge bg-yellow-500">{{types['type']['name']}}</span>
+              {% endfor %}
+            </div>
           </div>
-        </div>
-      </a>
-      
+        </a>
+      </form>
       {% endif %}
       {% if res['moveRes'] is mapping %}
-      
-      <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-        
-        <div>
-          <h3 class="text-lg font-semibold">{{res['moveRes']['name']}}</h3>
-          <div class="flex space-x-2">
-            <span class="type-badge bg-yellow-500">Elétrico</span>
+      <form action="{{url_for('/moveSelected')}}">
+        <a href="/pokemon" class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+          
+          <div>
+            <h3 class="text-lg font-semibold">{{res['moveRes']['name']}}</h3>
+            <div class="flex space-x-2">
+              <span class="type-badge bg-yellow-500">Elétrico</span>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </form>
+
       
       {% endif %}
       {% if res['abilityRes'] is mapping %}
@@ -108,7 +110,7 @@
 
   <!-- Rodapé (Tab Bar) -->
   <footer class="bg-gray-800 text-white p-4 fixed bottom-0 w-full flex justify-around">
-    <a href="/home" class="flex flex-col items-center">
+    <a href="{{url_for('/home')}}" class="flex flex-col items-center">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
       </svg>

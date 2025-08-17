@@ -20,8 +20,12 @@ def search(q):
     
 def getPokemon(q):
     try:
-        r = requests.get(f"{BASE_URL}/pokemon/{q}")
-        pokemonData = r.json()
+        if q:
+            r = requests.get(f"{BASE_URL}/pokemon/{q}")
+            pokemonData = r.json()            
+        else:
+            r = requests.get(f"{BASE_URL}/pokemon/")
+            pokemonData = r.json()
     
     except Exception as e:
         pokemonData = f"Nenhum pokémon foi encontrado: {e}"
@@ -30,8 +34,12 @@ def getPokemon(q):
 
 def getItem(q):
     try:
-        r = requests.get(f"{BASE_URL}/item/{q}")
-        itemData = r.json()
+        if q:
+            r = requests.get(f"{BASE_URL}/item/{q}")
+            itemData = r.json()
+        else:
+            r = requests.get(f"{BASE_URL}/item/")
+            itemData = r.json()
         
     except Exception as e: 
         itemData = f"Nenhum item foi encontrado: {e}"
@@ -39,8 +47,12 @@ def getItem(q):
 
 def getMove(q):
     try:
-        r = requests.get(f"{BASE_URL}/move/{q}")
-        moveData = r.json()
+        if q:
+            r = requests.get(f"{BASE_URL}/move/{q}")
+            moveData = r.json()            
+        else:
+            r = requests.get(f"{BASE_URL}/move/")
+            moveData = r.json()
 
     except Exception as e:
         moveData = f"Nenhuma ability foi encontrada: {e}"
@@ -48,8 +60,12 @@ def getMove(q):
 
 def getAbility(q):
     try:
-        r = requests.get(f"{BASE_URL}/ability/{q}")
-        abilityData = r.json()
+        if q:
+            r = requests.get(f"{BASE_URL}/ability/{q}")
+            abilityData = r.json()
+        else:
+            r = requests.get(f"{BASE_URL}/ability/")
+            abilityData = r.json()
 
     except Exception as e:
         abilityData = f"Nenhuma ability foi encontrada: {e}"
