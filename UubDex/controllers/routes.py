@@ -20,23 +20,39 @@ def init_app(app):
         res = getPokemonData.getPokemon("")
         return render_template("pokemon.html", res=res)
     
-    @app.route("/pokemonSelected", methods=['POST', 'GET'])
-    def pokemonSelected():
-        return render_template("selectedPokemon.html")
+    @app.route("/selected", methods=['POST', 'GET'])
+    @app.route("/selected/<id>", methods=['POST', 'GET'])
+    def selected(id=None):
+        if id == "pokemon":
+            pokeInfo = request.form.get("pokeInfo")
+            if pokeInfo:
+                pokemonData = {
+                    "id" : pokeInfo["id"],
+                    "name" : pokeInfo["name"],
+                    "description" : getPokemonData.getPokedéx(pokeInfo["id"]),
+                }
+                
+                return render_template("selectedPokemon.html",
+                                       pokeInfo=pokeInfo)
+        elif id == "item":
+            return render_template("selectedItem.html")
+        elif id == "move":
+            return render_template("selectedMove.html")
+        elif id == "ability":
+            return render_template("selectedAbility.html")
+        else:
+            return render_template("index.html")
+
     
-    @app.route("items", methods=['POST', 'GET'])
+
+    
+    @app.route("/items", methods=['POST', 'GET'])
     def items():
         res = getPokemonData.getItem("")
         return render_template("items.html", res=res)
-    
-    def itemSelected():
-        return render_template("selectedItem.html")
     
     @app.route("/moves", methods=['POST', 'GET'])
     def moves():
         res = getPokemonData.getMove("")
         return render_template("moves.html", res=res)
     
-    @app.route("/moveSelected", methods=['POST', 'GET'])
-    def moveSelected():
-        return render_template("selectedMove.html")
