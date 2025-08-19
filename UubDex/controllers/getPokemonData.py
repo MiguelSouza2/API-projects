@@ -3,8 +3,9 @@ import requests
 
 BASE_URL = "https://pokeapi.co/api/v2/"
 
-def search(q):
-    q = q.replace(" ", "-")
+def search(q):    
+    if q is str:
+        q = q.replace(" ", "-")
     
     result = {
     # procura por pokemon
@@ -72,11 +73,22 @@ def getAbility(q):
         abilityData = f"Nenhuma ability foi encontrada: {e}"
     return abilityData
 
-def getPokedéx(id):
+def getPokedex(id):
     try:
         r = requests.get(f"{BASE_URL}/pokemon-species/{id}")
+        
         pokemonData = r.json()
     except Exception as e:
         pokemonData = f"Nenhuma entrada da pokédex foi encontrado: {e}"
     
     return pokemonData
+
+def getEvolutionChain(id):
+    try:
+        getPokedex(id)["evolution_chain"]["url"]
+        r = requests.get(f"{BASE_URL}/evolution-chain/{id}")
+        evolutionData = r.json()
+    except Exception as e:
+        evolutionData = f"Nenhuma cadeia de evolução foi encontrada: {e}"
+    
+    return evolutionData

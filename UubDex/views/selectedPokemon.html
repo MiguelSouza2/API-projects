@@ -32,9 +32,11 @@
   <header class="bg-red-600 text-white p-4">
     <div class="flex justify-between items-center">
       <div>
-        <h1 class="text-2xl font-bold">Pikachu #025</h1>
+        <h1 class="text-2xl font-bold">{{pokemonData['name']}} #{{pokemonData['id']}}</h1>
         <div class="flex space-x-2 mt-2">
-          <span class="badge bg-yellow-500 text-white px-2 py-1 rounded-full text-sm">Elétrico</span>
+          {%for t in pokemonData['types']%}
+          <span class="badge bg-yellow-500 text-white px-2 py-1 rounded-full text-sm">{{t['name']}}</span>
+          {%endfor%}
         </div>
       </div>
       <a href="/home" class="text-white">
@@ -49,7 +51,8 @@
   <main class="p-4">
     <!-- Imagem do Pokémon -->
     <div class="flex justify-center mb-6">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="w-64 h-64 object-contain">
+      <img src="{{pokemonData['image']}}" class="w-64 h-64 object-contain">
+      <img src="{{pokemonData['shinyImage']}}" class="w-64 h-64 object-contain">
     </div>
 
     <!-- Stats Principais -->
@@ -57,27 +60,27 @@
       <h2 class="text-xl font-bold mb-4">Estatísticas</h2>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <p>HP: 100</p>
+          <p>HP: {{pokemonData["stats"]["hp"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-green-500" style="width: 35%"></div></div>
         </div>
         <div>
-          <p>Attack: 55</p>
+          <p>Attack: {{pokemonData["stats"]["atk"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-red-500" style="width: 55%"></div></div>
         </div>
         <div>
-          <p>Defense: 40</p>
+          <p>Defense: {{pokemonData["stats"]["def"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-blue-500" style="width: 40%"></div></div>
         </div>
         <div>
-          <p>Sp. Attack: 50</p>
+          <p>Sp. Attack: {{pokemonData["stats"]["spAtk"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-purple-500" style="width: 50%"></div></div>
         </div>
         <div>
-          <p>Sp. Defense: 50</p>
+          <p>Sp. Defense: {{pokemonData["stats"]["spDef"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-teal-500" style="width: 50%"></div></div>
         </div>
         <div>
-          <p>Speed: 90</p>
+          <p>Speed: {{pokemonData["stats"]["speed"]}}</p>
           <div class="stat-bar"><div class="stat-fill bg-yellow-500" style="width: 90%"></div></div>
         </div>
       </div>
@@ -94,29 +97,21 @@
     <!-- Conteúdo das Abas -->
     <section id="description" class="tab-content active">
       <h3 class="text-lg font-bold mb-2">Descrição</h3>
-      <p>Quando Pikachu encontra algo novo, ele dispara um choque elétrico. Se você encontrar uma baga queimada, é prova de que este Pokémon errou a força do seu choque.</p>
+      <p>{{pokemonData['description']}}</p>
       <ul class="mt-2">
-        <li><strong>Região:</strong> Kanto</li>
-        <li><strong>Altura:</strong> 0.4 m</li>
-        <li><strong>Peso:</strong> 6.0 kg</li>
-        <li><strong>Espécie:</strong> Pokémon Rato</li>
+        <li><strong>Altura:</strong> {{pokemonData['height']}} m</li>
+        <li><strong>Peso:</strong> {{pokemonData['weight']}} kg</li>
       </ul>
     </section>
     <section id="evolutions" class="tab-content">
       <h3 class="text-lg font-bold mb-2">Evoluções</h3>
       <div class="flex justify-around">
+        {%for e in pokemonData['evolution-chain']%}
         <div class="text-center">
-          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/172.png" alt="Pichu" class="w-16">
-          <p>Pichu</p>
+          <img src="{{e['image']}}" class="w-16">
+          <p>{{e['name']}}</p>
         </div>
-        <div class="text-center">
-          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="w-16">
-          <p>Pikachu</p>
-        </div>
-        <div class="text-center">
-          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png" alt="Raichu" class="w-16">
-          <p>Raichu</p>
-        </div>
+        {%endfor%}
       </div>
     </section>
     <section id="moves" class="tab-content">
@@ -145,14 +140,16 @@
     <section id="abilities" class="tab-content">
       <h3 class="text-lg font-bold mb-2">Habilidades</h3>
       <ul class="space-y-2">
+        {%for a in pokemonData['abilities']%}
         <li>
-          <p><strong>Static</strong></p>
-          <p>Pode paralisar o oponente ao contato físico.</p>
+          <p><strong>{{a['name']}}</strong></p>
         </li>
+        {%endfor%}
+        {%for a in pokemonData['hiddenAbilities']%}
         <li>
-          <p><strong>Lightning Rod</strong> (Oculta)</p>
-          <p>Atrai movimentos elétricos, aumentando Sp. Attack.</p>
+          <p><strong>{{a['name']}} (Hidden)</strong></p>
         </li>
+        {%endfor%}
       </ul>
     </section>
 

@@ -50,8 +50,10 @@
     <!-- Resultados da Pesquisa -->
     <section id="search-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {% if res['pokeRes'] is mapping %}
-      <form action="{{url_for('selected', id='pokemon')}}", method="post">
+      <form action="{{url_for('selected', id='pokemon')}}" method="post">
         <button class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+          <input type="hidden" name="pokeID" value="{{res['pokeRes']['id']}}">
+
           <img src="{{res['pokeRes']['sprites']['front_default']}}" alt="Pikachu" class="w-16 h-16">
           <div>
             <h3 class="text-lg font-semibold">{{res['pokeRes']['name']}}</h3>
@@ -62,12 +64,10 @@
             </div>
           </div>
         </button>
-
-        <input type="hidden" name="pokeInfo" value="{{res['pokeRes']}}">
       </form>
       {% endif %}
       {% if res['moveRes'] is mapping %}
-      <form action="{{url_for('selected', id='move')}}", method="post">
+      <form action="{{url_for('selected', id='move')}}" method="post">
         <button class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
           
           <div>
@@ -82,7 +82,7 @@
       
       {% endif %}
       {% if res['abilityRes'] is mapping %}
-      <form action="{{url_for('selected', id='ability')}}", method="post"></form>
+      <form action="{{url_for('selected', id='ability')}}" method="post"></form>
       <button class="search-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="w-16 h-16">
         <div>

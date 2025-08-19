@@ -1,3 +1,4 @@
+import json
 from flask import render_template, request
 from controllers import getPokemonData
 
@@ -20,20 +21,56 @@ def init_app(app):
         res = getPokemonData.getPokemon("")
         return render_template("pokemon.html", res=res)
     
-    @app.route("/selected", methods=['POST', 'GET'])
     @app.route("/selected/<id>", methods=['POST', 'GET'])
     def selected(id=None):
         if id == "pokemon":
-            pokeInfo = request.form.get("pokeInfo")
-            if pokeInfo:
+            pokeID = request.form.get("pokeID")
+            
+            if pokeID:
+                pokeResult = getPokemonData.search(pokeID)
+                pokeInfo = pokeResult['pokeRes']
+                evo_chain_data = getPokemonData.getEvolutionChain(pokeID)["chain"]
+                
                 pokemonData = {
-                    "id" : pokeInfo["id"],
+                    "id" : pokeID,
                     "name" : pokeInfo["name"],
-                    "description" : getPokemonData.getPokedéx(pokeInfo["id"]),
+                    "description" : next(
+                        (
+                            entry["flavor_text"].replace("\n", " ").replace("\f", " ")
+                            for entry in reversed(getPokemonData.getPokedex(pokeID)["flavor_text_entries"])
+                            if entry["language"]["name"] == "en"
+                        ),
+                        "Description not available"
+                    ),
+                    "height": pokeInfo["height"],
+                    "weight": pokeInfo["weight"],
+                    "abilities": [a["ability"] for a in pokeInfo["abilities"] if a["is_hidden"] is False],
+                    "hiddenAbilities": [a["ability"] for a in pokeInfo["abilities"] if a["is_hidden"] is True],
+                    "image": pokeInfo["sprites"]["other"]["official-artwork"]["front_default"],
+                    "shinyImage": pokeInfo["sprites"]["other"]["official-artwork"]["front_shiny"],
+                    "stats" : {
+                       "hp" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "hp")["base_stat"], 
+                       "atk" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "attack")["base_stat"], 
+                       "def" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "defense")["base_stat"], 
+                       "spAtk" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "special-attack")["base_stat"], 
+                       "spDef" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "special-defense")["base_stat"], 
+                       "speed" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "speed")["base_stat"], 
+                    },
+                    "evolution-chain": [
+                        {
+                            "id" : e["id"],
+                            "name": e["species"]["name"],
+                            "image": f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{e['id']}.png",
+                        }
+                        for e in evo_chain_data["evolves_to"]
+                    ],
+                    "types" : [n for n in pokeInfo["types"]],
+                    
+                    # "moves" : [m["move"]["name"] for m in pokeInfo["moves"] if m["version_group_details"][0]["version_group"]["name"] == "sword-shield"],
                 }
                 
                 return render_template("selectedPokemon.html",
-                                       pokeInfo=pokeInfo)
+                                       pokemonData=pokemonData)
         elif id == "item":
             return render_template("selectedItem.html")
         elif id == "move":
