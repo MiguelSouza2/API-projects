@@ -85,10 +85,54 @@ def getPokedex(id):
 
 def getEvolutionChain(id):
     try:
-        getPokedex(id)["evolution_chain"]["url"]
-        r = requests.get(f"{BASE_URL}/evolution-chain/{id}")
+
+        r = requests.get(getPokedex(id)["evolution_chain"]["url"])
         evolutionData = r.json()
     except Exception as e:
         evolutionData = f"Nenhuma cadeia de evolução foi encontrada: {e}"
     
     return evolutionData
+
+
+def parse_evolution_chain(chain):
+    evolutions = []
+
+
+    species_url = chain["species"]["url"]
+    species_id = int(species_url.rstrip("/").split("/")[-1])
+    evolutions.append({
+        "id": species_id,
+        "name": chain["species"]["name"],
+        "image": f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{species_id}.png",
+    })
+
+    for evo in chain.get("evolves_to", []):
+        evolutions.extend(parse_evolution_chain(evo))
+
+    return evolutions
+
+
+def parse_moves(pokeInfo):
+    moves = {
+        "level-up": [],
+        "machine": [],
+        "egg": [],
+        "tutor": []
+    }
+
+    for m in pokeInfo["moves"]:
+        move_data = requests.get(m["move"]["url"]).json()
+        move_type = move_data["type"]["name"]
+
+        for vgd in m["version_group_details"]:
+            if vgd["version_group"]["name"] != "sword-shield":
+                continue
+
+            method = vgd["move_learn_method"]["name"]
+            move_entry = {"name": m["move"]["name"], "type": move_type}
+            if method == "level-up":
+                move_entry["level"] = vgd["level_learned_at"]
+            if method in moves:
+                moves[method].append(move_entry)
+
+    return moves

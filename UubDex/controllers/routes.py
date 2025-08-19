@@ -16,10 +16,6 @@ def init_app(app):
                 res = getPokemonData.search(query)
                 return render_template("search.html", res=res)
     
-    @app.route("/pokemon", methods=['POST', 'GET'])
-    def pokemon():
-        res = getPokemonData.getPokemon("")
-        return render_template("pokemon.html", res=res)
     
     @app.route("/selected/<id>", methods=['POST', 'GET'])
     def selected(id=None):
@@ -56,19 +52,12 @@ def init_app(app):
                        "spDef" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "special-defense")["base_stat"], 
                        "speed" : next(s for s in pokeInfo["stats"] if s["stat"]["name"] == "speed")["base_stat"], 
                     },
-                    "evolution-chain": [
-                        {
-                            "id" : e["id"],
-                            "name": e["species"]["name"],
-                            "image": f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{e['id']}.png",
-                        }
-                        for e in evo_chain_data["evolves_to"]
-                    ],
+                    "evolution-chain": getPokemonData.parse_evolution_chain(evo_chain_data),
+
                     "types" : [n for n in pokeInfo["types"]],
                     
-                    # "moves" : [m["move"]["name"] for m in pokeInfo["moves"] if m["version_group_details"][0]["version_group"]["name"] == "sword-shield"],
+                    "moves" : getPokemonData.parse_moves(pokeInfo),
                 }
-                
                 return render_template("selectedPokemon.html",
                                        pokemonData=pokemonData)
         elif id == "item":
@@ -81,13 +70,13 @@ def init_app(app):
             return render_template("index.html")
 
     
-
+    # NÃO IMPLEMENTADO AINDA
     
     @app.route("/items", methods=['POST', 'GET'])
     def items():
         res = getPokemonData.getItem("")
         return render_template("items.html", res=res)
-    
+    # NÃO IMPLEMENTADO AINDA
     @app.route("/moves", methods=['POST', 'GET'])
     def moves():
         res = getPokemonData.getMove("")
