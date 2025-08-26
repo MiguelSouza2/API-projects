@@ -11,4 +11,4 @@ def main():
     return render_template('index.html')
 if __name__ == '__main__':
     # iniciando o servidor no localhost na porta 5000, modo de depuração ativado
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)

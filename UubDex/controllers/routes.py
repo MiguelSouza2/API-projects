@@ -38,8 +38,8 @@ def init_app(app):
                         ),
                         "Description not available"
                     ),
-                    "height": pokeInfo["height"],
-                    "weight": pokeInfo["weight"],
+                    "height": pokeInfo["height"] / 10,  
+                    "weight": pokeInfo["weight"] / 10,
                     "abilities": [a["ability"] for a in pokeInfo["abilities"] if a["is_hidden"] is False],
                     "hiddenAbilities": [a["ability"] for a in pokeInfo["abilities"] if a["is_hidden"] is True],
                     "image": pokeInfo["sprites"]["other"]["official-artwork"]["front_default"],
